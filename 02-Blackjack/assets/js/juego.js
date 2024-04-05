@@ -10,6 +10,16 @@ let deck = [];
 const tipos = ['C', 'D', 'H', 'S'];
 const especiales = ['A', 'J', 'Q', 'K'];
 
+let puntosJugador = 0;
+    puntosComputadora = 0;
+
+//Referencias del HTML
+const btnPedir = document.querySelector('#btnPedir');
+const btnNuevo = document.querySelector('#btnNuevo');
+const puntosHTML = document.querySelectorAll('small');
+const divCartasJugador = document.querySelector('#jugador-cartas');
+const dicCartasComputadora = document.querySelector('#computadora-cartas');
+
 
 const crearDeck = () => {
 
@@ -26,7 +36,6 @@ const crearDeck = () => {
     }
 
     deck = _.shuffle(deck);
-    console.log( deck );
 }
 
 crearDeck();
@@ -40,8 +49,8 @@ const pedirCarta = () => {
 
     const carta = deck.pop();
 
-    console.log(deck);
-    console.log(carta);
+    //console.log(deck);
+    //console.log(carta);
     return carta;
 }
 
@@ -54,4 +63,27 @@ const valorCarta = ( carta ) => {
 }
 
 const valor = valorCarta(pedirCarta());
-console.log({valor});
+
+//Eventos
+
+btnPedir.addEventListener('click', () => {
+
+    const carta = pedirCarta();
+    puntosJugador += valorCarta(carta);
+
+    puntosHTML[0].innerHTML = puntosJugador;
+
+    //<img class="carta" src="assets/cartas/2C.png" alt=""></img>
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${carta}.png`;
+    imgCarta.classList.add('carta');
+
+    divCartasJugador.append(imgCarta);
+
+});
+
+btnNuevo.addEventListener('click', () => {
+
+    window.location.reload();
+
+});
